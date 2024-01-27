@@ -1,0 +1,5 @@
+![Snipaste_2024-01-27_16-55-51](https://github.com/ConneRa1/roam/assets/92129668/1d7163de-1bd2-48fd-923a-338aeb198c13)
+![Snipaste_2024-01-27_16-56-06](https://github.com/ConneRa1/roam/assets/92129668/67391a30-1dc3-4226-8d7c-a4ea027c66f1)
+![Snipaste_2024-01-27_16-56-23](https://github.com/ConneRa1/roam/assets/92129668/5083ea1f-702f-48e9-86e1-78ac7a19d7e0)
+![Snipaste_2024-01-27_16-56-35](https://github.com/ConneRa1/roam/assets/92129668/0e23ac50-7d7f-4435-86b3-9739bf89c7e6)
+![Snipaste_2024-01-27_16-56-57](https://github.com/ConneRa1/roam/assets/92129668/ff5f7f5f-6312-4397-9ccd-c3d9257f2647)
