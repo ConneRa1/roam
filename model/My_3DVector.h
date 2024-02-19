@@ -61,6 +61,15 @@ public:
 	float dot_multiply(my_3Dvector input_vector) {
 		return dx * input_vector.dx + dy * input_vector.dy + dz * input_vector.dz;
 	}
-
-	
+	void normalize() {
+		if (len != 0) { // Ensure we don't divide by zero
+			dx /= len;
+			dy /= len;
+			dz /= len;
+			len = 1; // After normalization, the length is 1
+		}
+	}
+	my_3Dvector operator+(const my_3Dvector& rhs) const {
+		return my_3Dvector(dx + rhs.dx, dy + rhs.dy, dz + rhs.dz);
+	}
 }; 

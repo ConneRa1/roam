@@ -784,79 +784,76 @@ vector<vector<my_face_homogeneous>> translate_Model(vector<vector<my_face_homoge
 	return model;
 }
 
-void translate_point(my_homogeneous_point& p, my_homogeneous_point light)
-{
-	p.x -= light.x;
-	p.y -= light.y;
-	p.z -= light.z;
-
-	float pai = 3.14159;
-	float translate_matrix[4][4];
-	memset(translate_matrix, 0, sizeof(int) * 16);
-	translate_matrix[1][1] = 1;
-
-	float angle = atan2(light.dz, light.dx) + PI / 2;	//先绕y轴
-
-
-	/*angle = angle * pai / 180;*/
-	translate_matrix[0][0] = cos(angle);
-	translate_matrix[2][0] = -sin(angle);
-	translate_matrix[0][2] = sin(angle);
-	translate_matrix[2][2] = cos(angle);
-	translate_matrix[3][3] = 1;
-	struct my_homogeneous_point input_v;
-	input_v.x = p.x;
-	input_v.y = p.y;
-	input_v.z = p.z;
-	input_v.ratio = 1;
-	input_v = matrix_multiply_vector(translate_matrix, input_v);
-	p.x = input_v.x;
-	p.y = input_v.y;
-	p.z = input_v.z;
-	p.ratio = input_v.ratio;
-
-	memset(translate_matrix, 0, sizeof(int) * 16);
-	translate_matrix[0][0] = 1;
-	angle = atan2(-light.dy, sqrtf(light.dx * light.dx + light.dz * light.dz));			//再x轴
-	translate_matrix[1][1] = cos(angle);
-	translate_matrix[1][2] = -sin(angle);
-	translate_matrix[2][1] = +sin(angle);
-	translate_matrix[2][2] = cos(angle);
-	translate_matrix[3][3] = 1;
-	input_v.x = p.x;
-	input_v.y = p.y;
-	input_v.z = p.z;
-	input_v.ratio = 1;
-	input_v = matrix_multiply_vector(translate_matrix, input_v);
-	p.x = input_v.x;
-	p.y = input_v.y;
-	p.z = input_v.z;
-	p.ratio = input_v.ratio;
-
-	p.z -= shadowDistance;
-
-	/*memset(translate_matrix, 0, sizeof(int) * 16);
-	translate_matrix[0][0] = 1;
-	translate_matrix[1][1] = 1;
-	translate_matrix[2][2] = 1;
-	translate_matrix[3][3] = 1;
-	translate_matrix[3][2] = 1.0 * 1 / shadowDistance;
-
-	input_v.x = p.x;
-	input_v.y = p.y;
-	input_v.z = p.z;
-	input_v.ratio = 1;
-	input_v = matrix_multiply_vector(translate_matrix, input_v);
-	p.x = input_v.x / input_v.ratio;
-	p.y = input_v.y / input_v.ratio;
-	p.z = input_v.z / input_v.ratio;
-
-	p.ratio = 1;*/
-
-
-
-
-}
+//void translate_point(my_homogeneous_point& p, my_homogeneous_point light)
+//{
+//	p.x -= light.x;
+//	p.y -= light.y;
+//	p.z -= light.z;
+//
+//	float pai = 3.14159;
+//	float translate_matrix[4][4];
+//	memset(translate_matrix, 0, sizeof(int) * 16);
+//	translate_matrix[1][1] = 1;
+//
+//	float angle = atan2(light.dz, light.dx) + PI / 2;	//先绕y轴
+//
+//
+//	/*angle = angle * pai / 180;*/
+//	translate_matrix[0][0] = cos(angle);
+//	translate_matrix[2][0] = -sin(angle);
+//	translate_matrix[0][2] = sin(angle);
+//	translate_matrix[2][2] = cos(angle);
+//	translate_matrix[3][3] = 1;
+//	struct my_homogeneous_point input_v;
+//	input_v.x = p.x;
+//	input_v.y = p.y;
+//	input_v.z = p.z;
+//	input_v.ratio = 1;
+//	input_v = matrix_multiply_vector(translate_matrix, input_v);
+//	p.x = input_v.x;
+//	p.y = input_v.y;
+//	p.z = input_v.z;
+//	p.ratio = input_v.ratio;
+//
+//	memset(translate_matrix, 0, sizeof(int) * 16);
+//	translate_matrix[0][0] = 1;
+//	angle = atan2(-light.dy, sqrtf(light.dx * light.dx + light.dz * light.dz));			//再x轴
+//	translate_matrix[1][1] = cos(angle);
+//	translate_matrix[1][2] = -sin(angle);
+//	translate_matrix[2][1] = +sin(angle);
+//	translate_matrix[2][2] = cos(angle);
+//	translate_matrix[3][3] = 1;
+//	input_v.x = p.x;
+//	input_v.y = p.y;
+//	input_v.z = p.z;
+//	input_v.ratio = 1;
+//	input_v = matrix_multiply_vector(translate_matrix, input_v);
+//	p.x = input_v.x;
+//	p.y = input_v.y;
+//	p.z = input_v.z;
+//	p.ratio = input_v.ratio;
+//
+//	p.z -= shadowDistance;
+//
+//	/*memset(translate_matrix, 0, sizeof(int) * 16);
+//	translate_matrix[0][0] = 1;
+//	translate_matrix[1][1] = 1;
+//	translate_matrix[2][2] = 1;
+//	translate_matrix[3][3] = 1;
+//	translate_matrix[3][2] = 1.0 * 1 / shadowDistance;
+//
+//	input_v.x = p.x;
+//	input_v.y = p.y;
+//	input_v.z = p.z;
+//	input_v.ratio = 1;
+//	input_v = matrix_multiply_vector(translate_matrix, input_v);
+//	p.x = input_v.x / input_v.ratio;
+//	p.y = input_v.y / input_v.ratio;
+//	p.z = input_v.z / input_v.ratio;
+//
+//	p.ratio = 1;*/
+//
+//}
 
 void cal_shadow(int lightNum, my_homogeneous_point p1, my_homogeneous_point p2, int model_num, int face_num)
 {
@@ -1060,13 +1057,14 @@ void creatShadow(int lightNum) {
 	model_light[lightNum - 1] = translate_Model(Model, light[lightNum]);
 	shadowBuffer(lightNum, light[lightNum], model_light[lightNum - 1]);
 
-	cout << "1" << endl;
+	cout << "shadow" << endl;
 }
 //初始化三维图形顶点坐标
 void init(void) {
 	read(Model, "./海中屋/天空盒00a.obj");
 	readMTL(mdelReflectivity, "./海中屋/天空盒00a.mtl");
 
+	//single_arr.size()
 	for (int i = 0; i < single_arr.size(); i++)
 	{
 
@@ -1080,10 +1078,10 @@ void init(void) {
 		{
 			//readMir
 		}
-		if (single_arr[i] == 9 || single_arr[i] == 20)
+		/*if (single_arr[i] == 9 || single_arr[i] == 20)
 		{
 			readNOR(url + ".mtl");
-		}
+		}*/
 	}
 	for (int i = 1; i < 5; i++)
 	{
@@ -1328,24 +1326,27 @@ void init(void) {
 
 	for (int i = 1; i < pointLightNum; i++)
 	{
-
 		creatShadow(i);
 	}
+	/*for (int j= 1; j < pointLightNum; j++)
+	{	
+		if( j == 1 || j == 11 || j == 9 || j == 4)
+			creatShadow(j);
+	}*/
 
 }
+
+
 
 void translate_plane(vector<my_face_homogeneous>& model)
 {
 	for (int i = 0; i < model.size(); i++)
 	{
-
 		for (int j = 0; j < model[i].mList.size(); j++)
 		{
 			float x = model[i].mList[j].x + model[i].mList[j].dx;
 			float y = model[i].mList[j].y + model[i].mList[j].dy;
 			float z = model[i].mList[j].z + model[i].mList[j].dz;
-
-
 
 			model[i].mList[j].x -= eye_x;
 			model[i].mList[j].y -= eye_y;
@@ -1457,12 +1458,6 @@ void translate_plane(vector<my_face_homogeneous>& model)
 			model[i].mList[j].dy = y - model[i].mList[j].y;
 			model[i].mList[j].dz = z - model[i].mList[j].z;
 		}
-
-
-
-
-
-
 	}
 }
 
@@ -1552,6 +1547,18 @@ void translate_plane_point(my_homogeneous_point p, my_homogeneous_point& P)
 }
 
 
+
+bool isInShadow(int lightIndex, int px, int py, int num, int face_num) {
+	if (lightIndex == 0 || lightIndex == 1) {
+		return Shadow1[py / 2][px / 2][0] != num || Shadow1[py / 2][px / 2][1] != face_num;
+	}
+	else {
+		return Shadow[lightIndex - 2][py / 8][px / 8][0] != num || Shadow[lightIndex - 2][py / 8][px / 8][1] != face_num;
+	}
+}
+
+
+
 void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point acp1[], my_homogeneous_point acp2[], int num, int face_num)
 {
 
@@ -1575,15 +1582,6 @@ void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point 
 			int k = 0;
 
 			if (x < nearplane_width && x >= 0 && y < nearplane_height && y >= 0 && p1.z < 0) {
-				//int px = acp1[10].x+ nearplane_width/2 ;
-				//int py = acp1[10].y + nearplane_height/2 ;
-				///*cout << px << " " << py << endl;*/
-				//if (px > 0 && px <  nearplane_height && py > 0 && py < nearplane_height) {
-				//	color[py][px][0].data[0] = 1;
-				//	color[py][px][0].data[1] = 0;
-				//	color[py][px][0].data[2] = 0;
-				//}
-
 				bool flag = 0;
 				while (k < colorDepth && p1.z < depth[y][x][k]) {
 					if (color[y][x][k].data[3] == 1 /*||abs(depth[y][x][k]-p1.z)<10*/) {		//碰到不透明物体或者离前面的太近
@@ -1595,6 +1593,7 @@ void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point 
 				if (k == colorDepth || flag == 1) {
 					continue;
 				}
+				//透明实现
 				for (int j = colorDepth - 2; j >= k; j--) {
 					depth[y][x][j + 1] = depth[y][x][j];
 					color[y][x][j + 1].data[0] = color[y][x][j].data[0];
@@ -1610,8 +1609,7 @@ void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point 
 				color[y][x][k].data[1] = globalLight.g * mdelReflectivity[num].Kag;
 				color[y][x][k].data[2] = globalLight.b * mdelReflectivity[num].Kab;
 				for (int j = 0; j < pointLightNum; j++) {
-
-					if (pointLight[j].isOpen == 1&&(j==0||j==1||j==11||j==9||j==4)) {
+					if (pointLight[j].isOpen == 1 &&(j==0||j==1||j==11||j==9||j==4)/*&& !isInShadow(j, x, y, num, face_num)*/) {
 						int px = 0, py = 0;
 						if (j == 1) {
 							px = acp1[0].x + 5 * nearplane_width;
@@ -1626,32 +1624,24 @@ void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point 
 						if (j == 0 || j == 1 && acp1[0].z < 0 && ((px >= 0 && px < 10 * nearplane_width && py >= 0 && py < 10 * nearplane_height) &&
 							(Shadow1[py / 2][px / 2][0] == num && Shadow1[py / 2][px / 2][1] == face_num)) || j>1 && acp1[j - 1].z < 0 && ((px >= 0 &&
 								px < 16 * nearplane_width && py >= 0 && py < 16 * nearplane_height) && (Shadow[j - 2][py / 8][px / 8][0] == num && Shadow[j - 2][py / 8][px / 8][1] == face_num))) {
-							/*if(j==1&&(px >= 0 &&px < nearplane_width && py >= 0 && py < nearplane_width)&&Shadow[9][py][px][0]!=-1)
-								cout << num << " " << face_num << " " << Shadow[9][py][px][0] << " " << Shadow[9][py][px][1] << endl;*/
-								/*if (j != 0 && j != 1)
-									cout << "光 : " << j << endl;*/
-									/*cout << Shadow1[py][px][0] << " " << num << " " << Shadow1[py][px][1] << " " << face_num << " " << Shadow_Depth1[py][px] - 1 << " " << acp1[0].z << endl;*/
 							
 							my_3Dvector L(pointLight[j].P.x - i, pointLight[j].P.y+500 - p1.y, pointLight[j].P.z - p1.z);
 							if (j == 4)L.dz -= 400;
+							L.normalize();
 
-							L.dx /= L.len;
-							L.dy /= L.len;
-							L.dz /= L.len;
+							my_3Dvector V(-i,  -p1.y, -nearplane_distance - p1.z);
+							V.normalize();
 
 
-
-							my_3Dvector V(/*eye_x*/ -i, /*eye_y*/ -p1.y, /*eye_z*/-nearplane_distance - p1.z);
-							V.dx /= V.len;
-							V.dy /= V.len;
-							V.dz /= V.len;
-							float proportion = dvector.dot_multiply(L);
+							/*float proportion = dvector.dot_multiply(L);
 							my_3Dvector R(2 * proportion * dvector.dx - L.dx, 2 * proportion * dvector.dy - L.dy, 2 * proportion * dvector.dz - L.dz);
 							R.dx /= R.len;
 							R.dy /= R.len;
-							R.dz /= R.len;
+							R.dz /= R.len;*/
+							my_3Dvector H = V + L;
+							H.normalize();
 							float theta = dvector.dot_multiply(L);
-							float alpha = R.dot_multiply(V);
+							float alpha = dvector.dot_multiply(H);
 							if (theta < 0) {
 								theta = 0;
 								alpha = 0;
@@ -1663,47 +1653,39 @@ void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point 
 							depth[y][x][k] = p1.z;
 
 							//有法线再加
-							for (int z = 0; z < normalIndex.size(); z++)
-							{
-								if (num == normalIndex[z])
-								{
-									//cout << "normal replace: " << num << endl;
-									//cout << alpha << " ";
-									int h = int(normalImage[num]->height * (p1.fy));
-									int w = int(normalImage[num]->width * (p1.fx));
+							//for (int z = 0; z < normalIndex.size(); z++)
+							//{
+							//	if (num == normalIndex[z])
+							//	{
+							//		int h = int(normalImage[num]->height * (p1.fy));
+							//		int w = int(normalImage[num]->width * (p1.fx));
 
-									float nor_x = (normalImage[num]->data[h][w].data[0] * 1.0f / 255.0f - 0.5);
+							//		float nor_x = (normalImage[num]->data[h][w].data[0] * 1.0f / 255.0f - 0.5) * 2.0f;
+							//		float nor_y = (normalImage[num]->data[h][w].data[1] * 1.0f / 255.0f - 0.5) * 2.0f;
+							//		float nor_z = (normalImage[num]->data[h][w].data[2] * 1.0f / 255.0f - 0.5) * 2.0f;
+							//		my_3Dvector normal(nor_x,nor_y,nor_z);
+							//		normal.normalize();
+							//		//cout << normal.dx<<" " << normal.dy << " " << normal.dz << endl;
+							//		my_3Dvector H = V + L;
+							//		H.normalize();
+							//		theta = normal.dot_multiply(L);
+							//		alpha = normal.dot_multiply(H);
+							//		if (theta < 0) {
+							//			theta = 0;
+							//			alpha = 0;
+							//		}
+							//		if (alpha <= 0)
+							//			alpha = 0;
+							//		else
+							//			alpha = powf(alpha, mdelReflectivity[num].n);
+							//		break;
+							//	}
+							//}
 
-									float nor_y = (normalImage[num]->data[h][w].data[1] * 1.0f / 255.0f - 0.5);
-									float nor_z = (normalImage[num]->data[h][w].data[2] * 1.0f / 255.0f - 0.5);
-									my_3Dvector normal(nor_x,
-										nor_y,
-										nor_z);
-									normal.dx = normal.dx / normal.len;
-									normal.dy = normal.dy / normal.len;
-									normal.dz = normal.dz / normal.len;
-									//cout << normal.dx<<" " << normal.dy << " " << normal.dz << endl;
-									theta = -normal.dot_multiply(L);
-									my_3Dvector r(2 * theta * normal.dx - L.dx, 2 * theta * normal.dy - L.dy, 2 * theta * normal.dz - L.dz);
-									r.dx /= r.len;
-									r.dy /= r.len;
-									r.dz /= r.len;
-									theta = dvector.dot_multiply(L);
-									alpha = abs(r.dot_multiply(V));
-									/*if (alpha <= 0)
-										alpha = 0;
-									else
-										alpha = powf(alpha, 2);*/
-										//cout << alpha << endl;
-									break;
-								}
-							}
-
-
+							//theta==NdotL,alpha==NdotH
 							switch (pointLight[j].tag)
 							{
 							case 0:
-
 								color[y][x][k].data[0] += pointLight[j].r * mdelReflectivity[num].Kdr * theta + pointLight[j].r * mdelReflectivity[num].Ksr * alpha;
 								color[y][x][k].data[1] += pointLight[j].g * mdelReflectivity[num].Kdg * theta + pointLight[j].g * mdelReflectivity[num].Ksg * alpha;
 								color[y][x][k].data[2] += pointLight[j].b * mdelReflectivity[num].Kdb * theta + pointLight[j].b * mdelReflectivity[num].Ksb * alpha;
@@ -1726,8 +1708,6 @@ void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point 
 								}
 								break;
 							}
-							//
-					//
 						}
 					}
 				}
@@ -1757,9 +1737,6 @@ void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point 
 
 					}
 				}
-
-
-
 			}
 			if (D < 0.5)
 				break;
@@ -1775,11 +1752,7 @@ void cal(my_homogeneous_point p1, my_homogeneous_point p2, my_homogeneous_point 
 				acp1[i].x += D_acpx[i];
 				acp1[i].y += D_acpy[i];
 				acp1[i].z += D_acpz[i];
-
 			}
-			/*color[y][x].r = p1.rgb.r + proportion * r;
-			color[y][x].g = p1.rgb.g + proportion * g;
-			color[y][x].b = p1.rgb.b + proportion * b;*/
 		}
 	}
 	else {
@@ -2035,9 +2008,7 @@ void scanline_filling(my_face_homogeneous p, int model_num, int face_num)
 
 int rotateCount = 0;
 void zbuffer(vector<my_face_homogeneous> model, int model_num) {
-
-
-	/*translate_plane_dvector(model);*/
+	//背面剔除
 	for (int i = 0; i < model.size(); i++) {
 		my_3Dvector v(model[i].center.x - eye_x, model[i].center.y - eye_y, model[i].center.z - eye_z);
 		if (model[i].n.dot_multiply(v) >= 0) {
@@ -2046,23 +2017,22 @@ void zbuffer(vector<my_face_homogeneous> model, int model_num) {
 
 	}
 
-	
-
+	//MVP变换
 	translate_plane(model);
 	if (model_num == 24)
 	{
 		my_rotate(model, rotateCount * PI / 6);
 	}
 
+	//裁切
 	cut(model);
-	for (int i = 0; i < model.size(); i++) {	//扫描填充
+
+	//扫描填充
+	for (int i = 0; i < model.size(); i++) {	
 		if (model[i].mList.size() >= 3) {
 			scanline_filling(model[i], model_num, i);
 		}
-
 	}
-
-
 }
 
 void* zuffer1(void* arg)
@@ -2137,10 +2107,11 @@ void* zuffer8(void* arg)
 	pthread_exit(NULL);
 	return NULL;
 }
+
 //绘制坐标系
 //绘制内容
 void display(void) {
-
+	//清空Depth，Color Buffer
 	for (int i = 0; i < nearplane_height; i++) {
 		for (int j = 0; j < nearplane_width; j++) {
 			for (int k = 0; k < colorDepth; k++) {
@@ -2153,19 +2124,10 @@ void display(void) {
 		}
 	}
 
-
-	//v.dx = look_x;		//读取现在的视角方向
-	//v.dy = look_y;
-	//v.dz = look_z;
-
-	//glClearColor(1.f, 1.f, 1.f, 0.f);
-	//glClear(GL_COLOR_BUFFER_BIT);
-	//draw_coordinate(); //绘制坐标系 
 	for (int i = 0; i < pointLightNum; i++)
 	{
-		//cout << pointLight[i].p.x<<" "<< pointLight[i].p.y << " "<< pointLight[i].p.z << " " << endl;
+		//将灯光也转
 		translate_plane_point(pointLight[i].p, pointLight[i].P);
-		//cout << pointLight[i].p.x << " " << pointLight[i].P.y << " " << pointLight[i].P.z << " " << endl;
 	}
 
 	for (int i = 0; i < Model.size(); i++)
@@ -2196,7 +2158,6 @@ void display(void) {
 			float weight = 1;
 			Color totalColor;
 			for (int k = 0; k < colorDepth; k++) {
-
 				totalColor.data[0] += color[i][j][k].data[0] * weight * color[i][j][k].data[3];
 				totalColor.data[1] += color[i][j][k].data[1] * weight * color[i][j][k].data[3];
 				totalColor.data[2] += color[i][j][k].data[2] * weight * color[i][j][k].data[3];
@@ -2251,17 +2212,8 @@ void reshape(int w, int h)
 		glOrtho(-0.5 * nearplane_width, 0.5 * nearplane_width, -0.5 * nearplane_height * (GLfloat)nearplane_width / (GLfloat)nearplane_height, 0.5 * nearplane_height * (GLfloat)nearplane_width / (GLfloat)nearplane_height,
 			-nearplane_distance, nearplane_distance + 1000);
 
-	//if (w <= h)
-	//	glFrustum(-0.5 * nearplane_width, 0.5 * nearplane_width, -0.5 * nearplane_height * (GLfloat)nearplane_height / (GLfloat)nearplane_width, 0.5 * nearplane_height * (GLfloat)nearplane_height / (GLfloat)nearplane_width,
-	//		nearplane_distance, farplane_distance); //相对于视点
-	//else
-	//	glFrustum(-0.5 * nearplane_width, 0.5 * nearplane_width, -0.5 * nearplane_height * (GLfloat)nearplane_width / (GLfloat)nearplane_height, 0.5 * nearplane_height * (GLfloat)nearplane_width / (GLfloat)nearplane_height,
-	//	nearplane_distance, farplane_distance);
-
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
 	/*gluLookAt(eye_x, eye_y, eye_z, look_x * INT_MAX, look_y * INT_MAX, look_z * INT_MAX, 0, 1, 0);*/
 }
 
